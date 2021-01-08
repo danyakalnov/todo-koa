@@ -16,5 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "koa": "^2.13.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
   }
 }
