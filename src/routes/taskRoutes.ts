@@ -1,7 +1,7 @@
-import * as koaRouter from 'koa-router';
+import * as KoaRouter from 'koa-router';
 import { getTasks, getTask, editTask, createTask, deleteTask } from '../services/taskService';
 
-export const taskRouter = new koaRouter({
+export const taskRouter = new KoaRouter({
   prefix: '/tasks',
 });
 

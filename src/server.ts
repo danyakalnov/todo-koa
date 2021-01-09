@@ -1,16 +1,16 @@
-import * as koa from 'koa';
+import * as Koa from 'koa';
 import * as logger from 'koa-logger';
 import * as json from 'koa-json';
 import * as cors from '@koa/cors';
-import * as koaRouter from 'koa-router';
+import * as KoaRouter from 'koa-router';
 import * as bodyParser from 'koa-bodyparser';
 import { taskRouter } from './routes/taskRoutes';
 import { sequelize } from './database/setup';
 
-const app = new koa();
+const app = new Koa();
 const PORT_NUMBER = 3000;
 
-const appRouter = new koaRouter({
+const appRouter = new KoaRouter({
   prefix: '/api',
 });
 
