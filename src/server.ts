@@ -14,7 +14,7 @@ const appRouter = new KoaRouter({
   prefix: '/api',
 });
 
-appRouter.use('/', taskRouter.routes(), taskRouter.allowedMethods());
+appRouter.use('', taskRouter.routes(), taskRouter.allowedMethods());
 
 (async () => {
   await sequelize.sync();
