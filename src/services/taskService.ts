@@ -1,5 +1,6 @@
 import { Task } from '../database/models/task';
 import { Context, Next } from 'koa';
+import { CreateTaskRequest, TaskEditRequest } from '../types/request';
 
 export const getTasks = async (ctx: Context, next: Next): Promise<void> => {
   try {
@@ -40,9 +41,10 @@ export const getTask = async (ctx: Context, next: Next): Promise<void> => {
 };
 
 export const createTask = async (ctx: Context, next: Next): Promise<void> => {
+  const newTaskData = <CreateTaskRequest>ctx.request.body;
   const newTask = await Task.create({
-    ...ctx.request.body,
-    isDone: 'false',
+    ...newTaskData,
+    isDone: false,
   });
 
   ctx.status = 201;
@@ -58,9 +60,11 @@ export const editTask = async (ctx: Context, next: Next): Promise<void> => {
     const taskToEditId = ctx.params.id;
     const taskToEdit = await Task.findByPk(taskToEditId);
 
+    const newTaskData = <TaskEditRequest>ctx.request.body;
+
     if (taskToEdit !== null) {
-      taskToEdit.isDone = ctx.request.body.isDone;
-      taskToEdit.taskText = ctx.request.body.taskText;
+      taskToEdit.isDone = newTaskData.isDone;
+      taskToEdit.taskText = newTaskData.taskText;
 
       await taskToEdit.save();
       ctx.status = 200;
