@@ -20,6 +20,7 @@ export const Task = sequelize.define<TaskInstance>(
       type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
+      autoIncrement: true,
     },
     taskText: {
       type: DataTypes.STRING,
