@@ -1,7 +1,7 @@
 import * as koa from 'koa';
 import * as logger from 'koa-logger';
 import * as json from 'koa-json';
-import * as cors from 'koa__cors';
+import * as cors from '@koa/cors';
 import * as bodyParser from 'koa-bodyparser';
 import { taskRouter } from './routes/taskRoutes';
 import { sequelize } from './database/setup';
