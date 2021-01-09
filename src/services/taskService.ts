@@ -51,10 +51,12 @@ export const createTask: (ctx: Context, next: Next) => Promise<void> = async (
   next: Next,
 ): Promise<void> => {
   const newTaskData = <CreateTaskRequest>ctx.request.body;
-  const newTask = await Task.create({
+  const newTask = await Task.build({
     ...newTaskData,
     isDone: false,
   });
+
+  await newTask.save();
 
   ctx.status = 201;
   ctx.body = {
