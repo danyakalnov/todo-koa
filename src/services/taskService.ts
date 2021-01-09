@@ -77,8 +77,8 @@ export const editTask: (ctx: Context, next: Next) => Promise<void> = async (
     const newTaskData = <TaskEditRequest>ctx.request.body;
 
     if (taskToEdit !== null) {
-      taskToEdit.isDone = newTaskData.isDone;
-      taskToEdit.taskText = newTaskData.taskText;
+      if (newTaskData.isDone) taskToEdit.isDone = newTaskData.isDone;
+      if (newTaskData.taskText) taskToEdit.taskText = newTaskData.taskText;
 
       await taskToEdit.save();
       ctx.status = 200;
