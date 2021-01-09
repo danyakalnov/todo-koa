@@ -2,7 +2,10 @@ import { Task } from '../database/models/task';
 import { Context, Next } from 'koa';
 import { CreateTaskRequest, TaskEditRequest } from '../types/request';
 
-export const getTasks = async (ctx: Context, next: Next): Promise<void> => {
+export const getTasks: (ctx: Context, next: Next) => Promise<void> = async (
+  ctx: Context,
+  next: Next,
+): Promise<void> => {
   try {
     const tasks = await Task.findAll();
     ctx.status = 200;
@@ -17,7 +20,10 @@ export const getTasks = async (ctx: Context, next: Next): Promise<void> => {
   }
 };
 
-export const getTask = async (ctx: Context, next: Next): Promise<void> => {
+export const getTask: (ctx: Context, next: Next) => Promise<void> = async (
+  ctx: Context,
+  next: Next,
+): Promise<void> => {
   try {
     const taskId = ctx.params.id;
     const task = await Task.findByPk(taskId);
@@ -40,7 +46,10 @@ export const getTask = async (ctx: Context, next: Next): Promise<void> => {
   }
 };
 
-export const createTask = async (ctx: Context, next: Next): Promise<void> => {
+export const createTask: (ctx: Context, next: Next) => Promise<void> = async (
+  ctx: Context,
+  next: Next,
+): Promise<void> => {
   const newTaskData = <CreateTaskRequest>ctx.request.body;
   const newTask = await Task.create({
     ...newTaskData,
@@ -55,7 +64,10 @@ export const createTask = async (ctx: Context, next: Next): Promise<void> => {
   await next();
 };
 
-export const editTask = async (ctx: Context, next: Next): Promise<void> => {
+export const editTask: (ctx: Context, next: Next) => Promise<void> = async (
+  ctx: Context,
+  next: Next,
+): Promise<void> => {
   try {
     const taskToEditId = ctx.params.id;
     const taskToEdit = await Task.findByPk(taskToEditId);
@@ -87,7 +99,10 @@ export const editTask = async (ctx: Context, next: Next): Promise<void> => {
   }
 };
 
-export const deleteTask = async (ctx: Context, next: Next): Promise<void> => {
+export const deleteTask: (ctx: Context, next: Next) => Promise<void> = async (
+  ctx: Context,
+  next: Next,
+): Promise<void> => {
   try {
     const taskToDeleteId = ctx.params.id;
     const taskDeletionResult = await Task.destroy({
@@ -106,6 +121,7 @@ export const deleteTask = async (ctx: Context, next: Next): Promise<void> => {
         message: `Can not delete task with such id: ${taskToDeleteId}`,
       };
     }
+    await next();
   } catch (error) {
     ctx.status = 500;
     ctx.body = {
