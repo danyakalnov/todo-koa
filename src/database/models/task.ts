@@ -1,7 +1,19 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '../setup';
 
-export const Task = sequelize.define(
+export interface TaskAttributes {
+  id: number;
+  taskText: string;
+  isDone: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface TaskCreationAttributes extends Optional<TaskAttributes, 'id' | 'isDone'> {}
+
+interface TaskInstance extends Model<TaskAttributes, TaskCreationAttributes>, TaskAttributes {}
+
+export const Task = sequelize.define<TaskInstance>(
   'Task',
   {
     id: {
