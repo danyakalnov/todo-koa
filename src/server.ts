@@ -10,15 +10,14 @@ import { sequelize } from './database/setup';
 const app = new Koa();
 const PORT_NUMBER = 3000;
 
+const appRouter = new KoaRouter({
+  prefix: '/api',
+});
+appRouter.use('', taskRouter.routes(), taskRouter.allowedMethods());
+
 (async () => {
   await sequelize.sync();
-  app.use(cors({ origin: '*' }));
-
-  const appRouter = new KoaRouter({
-    prefix: '/api',
-  });
-  appRouter.use('', taskRouter.routes(), taskRouter.allowedMethods());
-
+  app.use(cors());
   app.use(json());
   app.use(logger());
   app.use(bodyParser());
