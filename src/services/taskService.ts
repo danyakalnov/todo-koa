@@ -31,13 +31,13 @@ export const getTask: (ctx: Context, next: Next) => Promise<void> = async (
     if (task !== null) {
       ctx.status = 200;
       ctx.body = task;
-      await next();
     } else {
       ctx.status = 404;
       ctx.body = {
         message: `Task with id: ${taskId} does not exist`,
       };
     }
+    await next();
   } catch (error) {
     ctx.status = 500;
     ctx.body = {
@@ -50,20 +50,24 @@ export const createTask: (ctx: Context, next: Next) => Promise<void> = async (
   ctx: Context,
   next: Next,
 ): Promise<void> => {
-  const newTaskData = <CreateTaskRequest>ctx.request.body;
-  const newTask = await Task.build({
-    ...newTaskData,
-    isDone: false,
-  });
+  try {
+    const newTaskData = <CreateTaskRequest>ctx.request.body;
+    const newTask = await Task.build({
+      ...newTaskData,
+      isDone: false,
+    });
 
-  await newTask.save();
+    await newTask.save();
 
-  ctx.status = 201;
-  ctx.body = {
-    id: newTask.id,
-  };
+    ctx.status = 201;
+    ctx.body = {
+      id: newTask.id,
+    };
 
-  await next();
+    await next();
+  } catch (error) {
+    console.log('Error occurred while creating new task');
+  }
 };
 
 export const editTask: (ctx: Context, next: Next) => Promise<void> = async (
