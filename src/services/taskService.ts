@@ -7,7 +7,9 @@ export const getTasks: (ctx: Context, next: Next) => Promise<void> = async (
   next: Next,
 ): Promise<void> => {
   try {
-    const tasks = await Task.findAll();
+    const tasks = await Task.findAll({
+      order: [['createdAt', 'DESC']],
+    });
     ctx.status = 200;
     ctx.body = tasks;
   } catch (error) {
