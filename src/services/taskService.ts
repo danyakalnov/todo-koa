@@ -10,13 +10,13 @@ export const getTasks: (ctx: Context, next: Next) => Promise<void> = async (
     const tasks = await Task.findAll();
     ctx.status = 200;
     ctx.body = tasks;
-
-    await next();
   } catch (error) {
     ctx.status = 500;
     ctx.body = {
       message: 'Internal server error',
     };
+  } finally {
+    await next();
   }
 };
 
@@ -37,12 +37,13 @@ export const getTask: (ctx: Context, next: Next) => Promise<void> = async (
         message: `Task with id: ${taskId} does not exist`,
       };
     }
-    await next();
   } catch (error) {
     ctx.status = 500;
     ctx.body = {
       message: 'Internal server error',
     };
+  } finally {
+    await next();
   }
 };
 
@@ -63,10 +64,10 @@ export const createTask: (ctx: Context, next: Next) => Promise<void> = async (
     ctx.body = {
       id: newTask.id,
     };
-
-    await next();
   } catch (error) {
     console.log('Error occurred while creating new task');
+  } finally {
+    await next();
   }
 };
 
@@ -95,13 +96,13 @@ export const editTask: (ctx: Context, next: Next) => Promise<void> = async (
         message: `Task with id: ${taskToEditId} does not exist`,
       };
     }
-
-    await next();
   } catch (error) {
     ctx.status = 500;
     ctx.body = {
       message: 'Internal server error',
     };
+  } finally {
+    await next();
   }
 };
 
@@ -127,11 +128,12 @@ export const deleteTask: (ctx: Context, next: Next) => Promise<void> = async (
         message: `Can not delete task with such id: ${taskToDeleteId}`,
       };
     }
-    await next();
   } catch (error) {
     ctx.status = 500;
     ctx.body = {
       message: 'Internal server error',
     };
+  } finally {
+    await next();
   }
 };
