@@ -13,12 +13,11 @@ const PORT_NUMBER = 3000;
 const appRouter = new KoaRouter({
   prefix: '/api',
 });
-
 appRouter.use('', taskRouter.routes(), taskRouter.allowedMethods());
 
 (async () => {
   await sequelize.sync();
-  app.use(cors());
+  app.use(cors({ origin: '*' }));
   app.use(json());
   app.use(logger());
   app.use(bodyParser());
