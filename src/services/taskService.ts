@@ -8,7 +8,10 @@ export const getTasks: (ctx: Context, next: Next) => Promise<void> = async (
 ): Promise<void> => {
   try {
     const tasks = await Task.findAll({
-      order: [['createdAt', 'DESC']],
+      order: [
+        ['isDone', 'ASC'],
+        ['createdAt', 'DESC'],
+      ],
     });
     ctx.status = 200;
     ctx.body = tasks;
