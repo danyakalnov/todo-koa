@@ -76,6 +76,40 @@ export const createTask: (ctx: Context, next: Next) => Promise<void> = async (
   }
 };
 
+export const toggleTask: (ctx: Context, next: Next) => Promise<void> = async (
+  ctx: Context,
+  next: Next,
+): Promise<void> => {
+  try {
+    const taskToToggleId = ctx.params.id;
+    const taskToToggle = await Task.findByPk(taskToToggleId);
+
+    if (taskToToggle !== null) {
+      const newTaskStatus: boolean = !taskToToggle.isDone;
+      taskToToggle.isDone = newTaskStatus;
+      await taskToToggle.save();
+
+      ctx.status = 200;
+      ctx.body = {
+        id: taskToToggle.id,
+        isDone: newTaskStatus,
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = {
+        message: `Task with id: ${taskToToggleId} does not exist`,
+      };
+    }
+  } catch (error) {
+    ctx.status = 500;
+    ctx.body = {
+      message: 'Internal server error',
+    };
+  } finally {
+    await next();
+  }
+};
+
 export const editTask: (ctx: Context, next: Next) => Promise<void> = async (
   ctx: Context,
   next: Next,
